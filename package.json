@@ -1,6 +1,6 @@
 {
   "name": "tsrpc-weapp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TSRPC Client for browser",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/k8w/tsrpc-browser.git"
+    "url": "https://github.com/k8w/tsrpc-weapp.git"
   },
   "keywords": [
     "k8w",
