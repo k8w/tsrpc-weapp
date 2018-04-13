@@ -1,0 +1,25 @@
+{
+  "name": "weapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rm -rf dist && webpack -w --mode=development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chai": "^4.1.2",
+    "chat": "^0.6.0",
+    "k8w-extend-native": "^0.1.6"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.5.1",
+    "ts-loader": "^4.2.0",
+    "tsrpc-protocol-loader": "^0.2.3",
+    "typescript": "^2.8.1",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}

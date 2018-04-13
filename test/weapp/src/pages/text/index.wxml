@@ -1,0 +1,4 @@
+<view>
+  <text>Test Text</text>
+  <button bindtap="toBinary">To Binary</button>
+</view>
