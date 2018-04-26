@@ -1,6 +1,6 @@
 {
   "name": "tsrpc-weapp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TSRPC Client for browser",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,7 @@
   ],
   "author": "k8w",
   "license": "Apache-2.0",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "typings": "index.d.ts",
   "dependencies": {
     "k8w-extend-native": "*",
