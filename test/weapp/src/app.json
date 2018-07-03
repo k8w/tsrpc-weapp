@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/text_browserify/index",
     "pages/text/index",
     "pages/binary/index"
   ],

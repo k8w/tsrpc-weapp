@@ -1,5 +1,5 @@
 export function clearTest() {
-    tests = [];
+    tests.splice(0, -1);
 }
 
 let tests: any[] = [];

@@ -1,10 +1,10 @@
 {
   "name": "tsrpc-weapp",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "TSRPC Client for browser",
   "main": "index.js",
   "scripts": {
-    "test": "cd test\\server && start ts-node index.ts && start ts-node binary.ts && cd ..\\ && webpack --mode=development",
+    "test": "cd test\\server && start ts-node index.ts && start ts-node binary.ts && cd ..\\weapp && webpack --mode=development",
     "build": "rm -rf dist && tsc -d && cp package.json LICENSE README.md dist/"
   },
   "repository": {

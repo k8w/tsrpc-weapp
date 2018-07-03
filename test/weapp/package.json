@@ -10,11 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/chai": "^4.1.2",
-    "chat": "^0.6.0",
     "k8w-extend-native": "^0.1.6"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.2",
+    "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.5.1",
     "ts-loader": "^4.2.0",
     "tsrpc-protocol-loader": "^0.2.3",
