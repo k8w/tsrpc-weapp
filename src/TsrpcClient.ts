@@ -117,14 +117,14 @@ export default class TsrpcClient implements ITsrpcClient {
     private async _resolveApiRes(resData: any, req: any, ptl: TsrpcPtl<any, any>, sn: number, rpcUrl: string, rs: Function, rj: Function) {
         let res: TsrpcRes;
         try {
-            res = this.config.binaryTransport ? await this.config.binaryDecoder(resData) : await this.config.ptlDecoder(resData);
+            res = this.config.binaryTransport ? await this.config.binaryDecoder(resData) : typeof resData === 'string' ? await this.config.ptlDecoder(resData) : resData;
         }
         catch (e) {
             //debug log
             this.config.showDebugLog && console.debug(`%cApiErr%c #${sn}%c ${rpcUrl}`,
                 'background: #d81e06; color: #fff; line-height: 1.5em; padding: 2px 4px;',
                 'color: #1b63bd;',
-                'color: #999;', req, 'Response cannot be resolved');
+                'color: #999;', req, 'Response cannot be resolved: ', resData, e);
 
             this._resReject(ptl, req, rj, new TsrpcError('Response cannot be resolved', 'RES_CANNOT_BE_RESOLVED'))
             return;
