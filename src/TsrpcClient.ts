@@ -25,17 +25,25 @@ export default class TsrpcClient implements ITsrpcClient {
         let sn = ++TsrpcClient._sn;
         let rpcUrl = this.getPtlUrl(ptl);
 
+        // hook 
+        let isPrevented = false;
+        this.onRequest && this.onRequest({
+            ptl: ptl,
+            req: req,
+            prevent: () => {
+                isPrevented = true
+            }
+        });
+        // prevent
+        if (isPrevented) {
+            return new SuperPromise((rs, rj) => { rj(new TsrpcError('Request was prevented', 'REQ_PREVENT')) });
+        }
+
         //debug log
         this.config.showDebugLog && console.debug(`%cApiReq%c #${sn}%c ${rpcUrl}`,
             'border:solid 1px #4ea85f; color: #4ea85f; line-height: 1.5em; padding: 1px 3px;',
             'color: #1b63bd;',
             'color: #999;', req);
-
-        //hook 
-        this.onRequest && this.onRequest({
-            ptl: ptl,
-            req: req
-        });
 
         let rs, rj, isAborted = false;
         let reqTask: any;
@@ -64,7 +72,7 @@ export default class TsrpcClient implements ITsrpcClient {
             this.config.showDebugLog && console.debug(`%cApiCancel%c #${sn}%c ${rpcUrl}`,
                 'background: #999; color: #fff; line-height: 1.5em; padding: 2px 4px;',
                 'color: #1b63bd;',
-                'color: #999;', );
+                'color: #999;');
             isAborted = true;
             reqTask.abort();
         })
@@ -85,7 +93,7 @@ export default class TsrpcClient implements ITsrpcClient {
                 throw new Error(`Protocol ${ptl.name} not in protocolPath.`);
             }
             output = output.substr(this.config.protocolPath.length);
-        }        
+        }
         output = output.replace(/Ptl([^\/]+)\.[tj]s$/, '$1');
         if (output[0] !== '/') {
             output = '/' + output;
@@ -145,7 +153,6 @@ export default class TsrpcClient implements ITsrpcClient {
                 'background: #4ea85f; color: #fff; line-height: 1.5em; padding: 2px 4px;',
                 'color: #1b63bd;',
                 'color: #999;', req, res);
-            rs(res);
 
             //hook
             this.onResponse && this.onResponse({
@@ -153,6 +160,8 @@ export default class TsrpcClient implements ITsrpcClient {
                 req: req,
                 res: res
             });
+
+            rs(res);
         }
     }
 
@@ -164,7 +173,8 @@ export default class TsrpcClient implements ITsrpcClient {
 
 export interface TsrpcRequestEvent<Req=any, Res=any> {
     ptl: TsrpcPtl<Req, Res>,
-    req: Req
+    req: Req,
+    prevent: () => void
 }
 
 export interface TsrpcResponseEvent<Req=any, Res=any> {
