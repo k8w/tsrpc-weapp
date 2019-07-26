@@ -40,10 +40,7 @@ export default class TsrpcClient implements ITsrpcClient {
         }
 
         //debug log
-        this.config.showDebugLog && console.debug(`%cApiReq%c #${sn}%c ${rpcUrl}`,
-            'border:solid 1px #4ea85f; color: #4ea85f; line-height: 1.5em; padding: 1px 3px;',
-            'color: #1b63bd;',
-            'color: #999;', req);
+        this.config.showDebugLog && console.debug(`ApiReq #${sn} ${rpcUrl}`, req);
 
         let rs, rj, isAborted = false;
         let reqTask: any;
@@ -69,10 +66,7 @@ export default class TsrpcClient implements ITsrpcClient {
         })
 
         output.onCancel(() => {
-            this.config.showDebugLog && console.debug(`%cApiCancel%c #${sn}%c ${rpcUrl}`,
-                'background: #999; color: #fff; line-height: 1.5em; padding: 2px 4px;',
-                'color: #1b63bd;',
-                'color: #999;');
+            this.config.showDebugLog && console.debug(`ApiCancel #${sn} ${rpcUrl}`);
             isAborted = true;
             reqTask.abort();
         })
@@ -103,10 +97,7 @@ export default class TsrpcClient implements ITsrpcClient {
 
     private _throwApiError(ptl: TsrpcPtl<any, any>, req: any, sn: number, rpcUrl: string, rj: Function) {
         //debug log
-        this.config.showDebugLog && console.debug(`%cApiErr%c #${sn}%c ${rpcUrl}`,
-            'background: #d81e06; color: #fff; line-height: 1.5em; padding: 2px 4px;',
-            'color: #1b63bd;',
-            'color: #999;', req, 'Network error');
+        this.config.showDebugLog && console.debug(`ApiErr #${sn} ${rpcUrl}`, req, 'Network error');
 
         this._resReject(ptl, req, rj, new TsrpcError('Network error', 'NETWORK_ERROR'));
     }
@@ -129,10 +120,7 @@ export default class TsrpcClient implements ITsrpcClient {
         }
         catch (e) {
             //debug log
-            this.config.showDebugLog && console.debug(`%cApiErr%c #${sn}%c ${rpcUrl}`,
-                'background: #d81e06; color: #fff; line-height: 1.5em; padding: 2px 4px;',
-                'color: #1b63bd;',
-                'color: #999;', req, 'Response cannot be resolved: ', resData, e);
+            this.config.showDebugLog && console.debug(`ApiErr #${sn} ${rpcUrl}`, req, 'Response cannot be resolved: ', resData, e);
 
             this._resReject(ptl, req, rj, new TsrpcError('Response cannot be resolved', 'RES_CANNOT_BE_RESOLVED'))
             return;
@@ -140,19 +128,13 @@ export default class TsrpcClient implements ITsrpcClient {
 
         if (res.errmsg != null) {
             //debug log
-            this.config.showDebugLog && console.debug(`%cApiErr%c #${sn}%c ${rpcUrl}`,
-                'background: #d81e06; color: #fff; line-height: 1.5em; padding: 2px 4px;',
-                'color: #1b63bd;',
-                'color: #999;', req, res);
+            this.config.showDebugLog && console.debug(`ApiErr #${sn} ${rpcUrl}`, req, res);
 
             this._resReject(ptl, req, rj, new TsrpcError(res.errmsg, res.errinfo))
         }
         else {
             //debug log
-            this.config.showDebugLog && console.debug(`%cApiRes%c #${sn}%c ${rpcUrl}`,
-                'background: #4ea85f; color: #fff; line-height: 1.5em; padding: 2px 4px;',
-                'color: #1b63bd;',
-                'color: #999;', req, res);
+            this.config.showDebugLog && console.debug(`ApiRes #${sn} ${rpcUrl}`, req, res);
 
             //hook
             this.onResponse && this.onResponse({
@@ -171,19 +153,19 @@ export default class TsrpcClient implements ITsrpcClient {
     onError: ((e: TsrpcErrorEvent) => void) | null | undefined;
 }
 
-export interface TsrpcRequestEvent<Req=any, Res=any> {
+export interface TsrpcRequestEvent<Req = any, Res = any> {
     ptl: TsrpcPtl<Req, Res>,
     req: Req,
     prevent: () => void
 }
 
-export interface TsrpcResponseEvent<Req=any, Res=any> {
+export interface TsrpcResponseEvent<Req = any, Res = any> {
     ptl: TsrpcPtl<Req, Res>,
     req: Req,
     res: Res
 }
 
-export interface TsrpcErrorEvent<Req=any, Res=any> {
+export interface TsrpcErrorEvent<Req = any, Res = any> {
     ptl: TsrpcPtl<Req, Res>,
     req: Req,
     err: TsrpcError

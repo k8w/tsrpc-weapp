@@ -1,6 +1,6 @@
 {
   "name": "tsrpc-weapp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "TSRPC Client for browser",
   "main": "index.js",
   "scripts": {
